@@ -43,6 +43,7 @@ int main(){
     }
     parse_code(final,"\nmain()");
     stack.format(final,"\";");
+    
     dtw.write_string_file_content(OUTPUT,final->rendered_text);
     UniversalGarbage_free(garbage);
     return 0;

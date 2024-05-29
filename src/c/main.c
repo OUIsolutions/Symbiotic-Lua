@@ -15,7 +15,8 @@ int main(){
     lua  = newLuaCEmbedNamespace();
     LuaCEmbed * main_obj = lua.newLuaEvaluation();
     add_callbacks(main_obj);
-    lua.evaluate(main_obj,lua_code);
+    printf("%s\n",lua_code);
+    // lua.evaluate(main_obj,lua_code);
     if(lua.has_errors(main_obj)){
         char *error = lua.get_error_message(main_obj);
         printf("%s\n",error);
