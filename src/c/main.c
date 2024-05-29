@@ -3,11 +3,13 @@
 #include "lua_code.h"
 LuaCEmbedNamespace lua;
 #include "callbacks/declaration.h"
-#include "callbacks/declaration.h"
+
+#include "callbacks/definition.h"
 
 void add_callbacks(LuaCEmbed *main_obj){
-
+    lua.add_callback(main_obj,"print",custom_print);
 }
+
 
 int main(){
     lua  = newLuaCEmbedNamespace();

@@ -2,6 +2,6 @@
 
 function main()
 
-    print("aaaaaaaaaa")
+    print("aaaaaaaaaa\n",add(10,20))
 
 end
