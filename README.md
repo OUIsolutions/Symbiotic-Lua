@@ -23,8 +23,15 @@ you can run it with
 ```
 
 
-
 ## How it works:
  The system works through 2 stages, the first being build, in the build stage, after compiled, build.c will create a string called **lua_code** in the lua_code.h file. In step two, the main folder C imports this string and generates an evaluation on it.
 This way, the entire lua virtual machine is embedded in the binary, without the need for external dependencies.
+
+## what These template its not ?
+- a replacer for lua 
+- a full build tool 
+- a "lua runtimer" 
+
+## Why you did not include the basic lua functions inside?
+I belive the hole ideia here, its that you as a C developer , can implement what ever functions you like, and modify lua in the way you want, these its not a runtimer. 
 
