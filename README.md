@@ -3,8 +3,24 @@
 
 Symbiotic-Lua  is a template for hybrid development between C and Lua, being very useful for hybrid teams, or to facilitate the creation of programs. It generates a native Windows/Linux binary, without the need to install Lua, so it can be used to build desktop apps, or run in environments that cannot install Lua.
 ## Install 
-For instalation  just run the following comands
+For instalation  just download the src folder into your project
 
+than type to get into the folder (these its important):
+```shel
+cd src 
+```
+after it, you can compile and run the build
+
+```shel
+gcc build/main.c -o build.o  &&./build.o
+```
+
+these will produce the file final.o, which its the final embed binary 
+you can run it with 
+
+```shel
+./final.o
+```
 
 
 
