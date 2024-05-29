@@ -10,6 +10,6 @@ local function div(x,y)
     return x / y
 end
 
-local function mill(x,y)
+local function mul(x,y)
     return x * y
 end
