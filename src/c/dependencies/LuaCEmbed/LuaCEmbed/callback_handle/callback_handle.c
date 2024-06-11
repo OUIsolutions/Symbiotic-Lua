@@ -6,6 +6,7 @@ int privateLuaCEmbed_main_callback_handler(lua_State  *L){
     bool is_a_function = !is_a_method;
     LuaCEmbedResponse *possible_return = NULL;
     LuaCEmbed  *self = (LuaCEmbed*)lua_touserdata(L,lua_upvalueindex(2));
+    int old_total_args = self->total_args;
     self->total_args =  lua_gettop(self->state);
     privata_LuaCEmbed_increment_stack_(self);
 
@@ -44,13 +45,12 @@ int privateLuaCEmbed_main_callback_handler(lua_State  *L){
 
     privateLuaCEmbedTableArray_free((privateLuaCEmbedTableArray*)self->func_tables);
     self->func_tables = old_funct_tables;
+    self->total_args = old_total_args;
     privata_LuaCEmbed_decrement_stack(self);
-
-    lua_settop(self->state, 0);
-
+    PRIVATE_LUA_CEMBED_CLEAR_STACK
     self->current_function = NULL;
 
-    if(!possible_return){
+    if(possible_return==NULL){
         return PRIVATE_LUACEMBED_NO_RETURN;
     }
 
@@ -158,7 +158,7 @@ int privateLuaCEmbed_main_callback_handler(lua_State  *L){
 }
 
 
-void private_LuaCEmbed_add_lib_callback(LuaCEmbed *self, const char *callback_name, LuaCEmbedResponse* (*callback)(LuaCEmbed *args) ){
+void private_LuaCEmbed_add_lib_callback(LuaCEmbed *self, const char *callback_name, LuaCEmbedResponse* (*callback)(LuaCEmbed *args),bool global_functions ){
 
     char *main_lib_table = private_LuaCembed_format(PRIVATE_LUA_CEMBED_MAIN_LIB_TABLE_NAME__,self->lib_identifier);
 
@@ -180,7 +180,7 @@ void private_LuaCEmbed_add_lib_callback(LuaCEmbed *self, const char *callback_na
 
 
     lua_settable(self->state,-3);
-    if(self->public_functions){
+    if(global_functions){
         //it points the function to a global function
         //like: callback = private_lua_c_embed_main_lib_table.callback
         lua_getglobal(self->state, main_lib_table);
@@ -195,7 +195,6 @@ void private_LuaCEmbed_add_lib_callback(LuaCEmbed *self, const char *callback_na
 
 void private_LuaCEmbed_add_evaluation_callback(LuaCEmbed *self, const char *callback_name, LuaCEmbedResponse* (*callback)(LuaCEmbed *args) ){
     PRIVATE_LUA_CEMBED_PROTECT_VOID
-    private_lua_cembed_memory_limit = self->memory_limit;
 
     //creating the clojure
     lua_pushboolean(self->state,false);//is a method
@@ -212,12 +211,21 @@ void private_LuaCEmbed_add_evaluation_callback(LuaCEmbed *self, const char *call
 
 void LuaCEmbed_add_callback(LuaCEmbed *self, const char *callback_name, LuaCEmbedResponse* (*callback)(LuaCEmbed *args) ){
     PRIVATE_LUA_CEMBED_PROTECT_VOID
-    private_lua_cembed_memory_limit = self->memory_limit;
 
     if(self->is_lib){
-        private_LuaCEmbed_add_lib_callback(self,callback_name,callback);
+        private_LuaCEmbed_add_lib_callback(self,callback_name,callback,false);
         return;
     }
     private_LuaCEmbed_add_evaluation_callback(self,callback_name,callback);
 
+}
+
+void LuaCEmbed_add_global_callback(LuaCEmbed *self, const char *callback_name, LuaCEmbedResponse* (*callback)(LuaCEmbed *args)){
+    PRIVATE_LUA_CEMBED_PROTECT_VOID
+
+    if(self->is_lib){
+        private_LuaCEmbed_add_lib_callback(self,callback_name,callback,true);
+        return;
+    }
+    private_LuaCEmbed_add_evaluation_callback(self,callback_name,callback);
 }
