@@ -7,7 +7,9 @@ typedef struct {
 Bin bins[] = {
 
 	{
-		.path="cars/"	},
+		.path="cars/",
+		.content=NULL
+	},
 
 	{
 		.path="cars/old_car.jpg",
@@ -31,7 +33,9 @@ Bin bins[] = {
 	},
 
 	{
-		.path="house/"	},
+		.path="house/",
+		.content=NULL
+	},
 
 	{
 		.path="house/big_house.jpg",

@@ -35,6 +35,8 @@ LuaCEmbedResponse * is_bin_file(LuaCEmbedTable *self,LuaCEmbed *args) {
 
     if(founded) {
         if(founded->content) {
+          //  printf("file\n");
+
             return  lua.response.send_bool(true);
         }
     }
@@ -51,8 +53,10 @@ LuaCEmbedResponse * is_bin_dir(LuaCEmbedTable *self,LuaCEmbed *args) {
     Bin *founded =  find_bin(bin_path);
     if(founded) {
         if(founded->content == NULL) {
+            printf("dir\n");
             return  lua.response.send_bool(true);
         }
+
     }
 
     return  lua.response.send_bool(false);

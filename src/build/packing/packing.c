@@ -7,10 +7,9 @@ long  pack_folder(CTextStack *data,const char *folder) {
 
         stack.text(data,"\n\t{\n");
         char *item = listage->strings[i];
-        stack.format(data,"\t\t.path=\"%s\"",item);
+        stack.format(data,"\t\t.path=\"%s\",\n",item);
         char *full_path = dtw.concat_path(folder,item);
         if(dtw.entity_type(full_path) == DTW_FILE_TYPE) {
-            stack.format(data,",\n");
             long size;
             bool is_binary;
             unsigned char *content = dtw.load_any_content(full_path,&size,&is_binary);
@@ -19,7 +18,9 @@ long  pack_folder(CTextStack *data,const char *folder) {
             stack.format(data,"\t\t.content=\"");
             parse_bin(data,content,size);
             stack.format(data,"\"\n");
-
+        }
+        else {
+            stack.format(data,"\t\t.content=NULL\n");
         }
 
         free(full_path);
