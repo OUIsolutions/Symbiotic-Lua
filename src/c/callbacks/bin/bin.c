@@ -54,6 +54,7 @@ LuaCEmbedResponse * is_bin_dir(LuaCEmbedTable *self,LuaCEmbed *args) {
             return  lua.response.send_bool(true);
         }
     }
+
     return  lua.response.send_bool(false);
 }
 LuaCEmbedResponse * bin_exist(LuaCEmbedTable *self,LuaCEmbed *args) {

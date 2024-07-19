@@ -26,13 +26,25 @@ if action == "write" then
          exit(1)
     end
     if isfile then
-    dtw.write_file(output,bin.getbin(binpath))
+        dtw.write_file(output,bin.getbin(binpath))
 	end
+
+    if isfodler then
+    	local itens,size = bin.list_files_recursively(binpath)
+    	for i=0,size do
+    	      local old_path = itens[i]
+              local path = dtw.newPath(itens[i]);
+              path.remove_sub_dir_at_index(0)
+              path.add_start_dir(binpath)
+              print(path.get_full_path())
+              dtw.write_file(path,bin.getbin(old_path))
+    	end
+    end
 
 elseif  action == "list" then
     local path = getargv(2)
 
-    local itens,size = bin.list_files(path)
+    local itens,size = bin.list_files_recursively(path)
     for i=1,size do
     	print(itens[i].."\n")
     end
