@@ -1,11 +1,13 @@
 
 
-void pack_folder(CTextStack *data,const char *folder) {
+long  pack_folder(CTextStack *data,const char *folder) {
     DtwStringArray *listage = dtw.list_all_recursively(folder,false);
-
+    long listage_size = listage->size;
     for(int i=0; i < listage->size;i++) {
+
         stack.text(data,"\n\t{\n");
         char *item = listage->strings[i];
+        printf("parsed: %s\n",item);
         stack.format(data,"\t\t.path=\"%s\"",item);
         char *full_path = dtw.concat_path("bin/all",item);
         if(dtw.entity_type(full_path) == DTW_FILE_TYPE) {
@@ -27,6 +29,7 @@ void pack_folder(CTextStack *data,const char *folder) {
         stack.text(data,"\t},\n");
     }
     dtw.string_array.free(listage);
+    return  listage_size;
 }
 
 
@@ -42,17 +45,18 @@ void create_bins(){
             "}Bin;\n"
             "Bin bins[] = {\n"
     );
-
-    pack_folder(data,"bin/all");
+    long size = pack_folder(data,"bin/all");
     #ifdef __linux__
-        pack_folder(data,"bin/linux");
+       size+= pack_folder(data,"bin/linux");
     #endif
 
     #ifdef _WIN32
-        pack_folder(data,"bin/windows");
+        size+=pack_folder(data,"bin/windows");
     #endif
 
     stack.text(data,"};\n");
+    stack.format(data,"int bins_size = %d;\n",size);
+
     dtw.write_string_file_content("c/bin.h",data->rendered_text);
 
     stack.free(data);
