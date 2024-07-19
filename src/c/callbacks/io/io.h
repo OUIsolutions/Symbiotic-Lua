@@ -1,5 +1,6 @@
 
+LuaCEmbedResponse *get_argv(LuaCEmbed *args);
 
-LuaCEmbedResponse *custom_print(LuaCEmbed *args);
+LuaCEmbedResponse *lua_print(LuaCEmbed *args);
 
-LuaCEmbedResponse * get_str(LuaCEmbed *args);
+LuaCEmbedResponse * lua_input(LuaCEmbed *args);

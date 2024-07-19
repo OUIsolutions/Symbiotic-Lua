@@ -1,4 +1,9 @@
-LuaCEmbedResponse *custom_print(LuaCEmbed *args){
+
+LuaCEmbedResponse *get_argv(LuaCEmbed *args) {
+    
+}
+
+LuaCEmbedResponse *lua_print(LuaCEmbed *args){
 
     int size = lua.args.size(args);
     for(int i = 0; i < size; i++){
@@ -21,7 +26,7 @@ LuaCEmbedResponse *custom_print(LuaCEmbed *args){
     return NULL;
 }
 
-LuaCEmbedResponse * get_str(LuaCEmbed *args){
+LuaCEmbedResponse * lua_input(LuaCEmbed *args){
 
     if(lua.args.get_type(args,0) != lua.types.NILL){
         char *str_message = lua.args.get_str(args,0);
