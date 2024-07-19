@@ -13,8 +13,9 @@ void parse_code(CTextStack *final,const char *content){
 void parse_bin(CTextStack *final,unsigned char *content,long size) {
     for(int i = 0; i < size; i++)
     {
-        char buffer[10] = {0};
-        sprintf(buffer,"\\x%x",(char)content[i]);
+        char buffer[10] ={0};
+       sprintf(buffer,"\\x%x",content[i]);
         stack.format(final,"%s",buffer);
+
     }
 }
