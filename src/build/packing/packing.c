@@ -1,26 +1,11 @@
 
 
+void pack_folder(CTextStack *data,const char *folder) {
+    DtwStringArray *listage = dtw.list_all_recursively(folder,false);
 
-void create_bins(){
-
-    UniversalGarbage *garbage = newUniversalGarbage();
-    CTextStack *data = stack.newStack_string(
-        "typedef struct {\n"
-            "\tconst char *path;\n"
-            "\tlong size;\n"
-            "\tbool is_binary;\n"
-            "\tunsigned char *content;\n"
-            "}Bin;\n"
-            "Bin bins[] = {\n"
-    );
-    UniversalGarbage_add(garbage,stack.free,data);
-
-    DtwStringArray *all = dtw.list_all_recursively("bin/all",false);
-    UniversalGarbage_add(garbage,dtw.string_array.free,all);
-
-    for(int i=0; i < all->size;i++) {
+    for(int i=0; i < listage->size;i++) {
         stack.text(data,"\n\t{\n");
-        char *item = all->strings[i];
+        char *item = listage->strings[i];
         stack.format(data,"\t\t.path=\"%s\"",item);
         char *full_path = dtw.concat_path("bin/all",item);
         if(dtw.entity_type(full_path) == DTW_FILE_TYPE) {
@@ -41,9 +26,35 @@ void create_bins(){
         free(full_path);
         stack.text(data,"\t},\n");
     }
+    dtw.string_array.free(listage);
+}
+
+
+void create_bins(){
+
+    UniversalGarbage *garbage = newUniversalGarbage();
+    CTextStack *data = stack.newStack_string(
+        "typedef struct {\n"
+            "\tconst char *path;\n"
+            "\tlong size;\n"
+            "\tbool is_binary;\n"
+            "\tunsigned char *content;\n"
+            "}Bin;\n"
+            "Bin bins[] = {\n"
+    );
+
+    pack_folder(data,"bin/all");
+    #ifdef __linux__
+        pack_folder(data,"bin/linux");
+    #endif
+
+    #ifdef _WIN32
+        pack_folder(data,"bin/windows");
+    #endif
+
     stack.text(data,"};\n");
     dtw.write_string_file_content("c/bin.h",data->rendered_text);
 
-    UniversalGarbage_free(garbage);
+    stack.free(data);
 
 }

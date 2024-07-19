@@ -23,4 +23,8 @@ Bin bins[] = {
 		.is_binary=false,
 		.content="\x73\x73\x73"
 	},
+
+	{
+		.path="test.txt"
+	},
 };
