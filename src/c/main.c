@@ -25,7 +25,11 @@ void add_callbacks(LuaCEmbed *main_obj){
     lua.tables.set_method(bin,"isdir",is_bin_dir);
     lua.tables.set_method(bin,"exist",bin_exist);
     lua.tables.set_method(bin,"list_files_recursively",list_bin_files_recursively);
-
+    lua.tables.set_method(bin,"list_files",list_bin_files);
+    lua.tables.set_method(bin,"list_dirs_recursively",list_bin_dirs_recursively);
+    lua.tables.set_method(bin,"list_dirs",list_bin_dirs);
+    lua.tables.set_method(bin,"list_all_recursively",list_bin_all_recursively);
+    lua.tables.set_method(bin,"list_all",list_bin_all);
 }
 
 

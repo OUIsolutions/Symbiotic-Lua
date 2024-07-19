@@ -32,7 +32,7 @@ if action == "write" then
 elseif  action == "list" then
     local path = getargv(2)
 
-    local itens,size = bin.list_files_recursively(path,false)
+    local itens,size = bin.list_files(path)
     for i=1,size do
     	print(itens[i].."\n")
     end

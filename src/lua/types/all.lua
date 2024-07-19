@@ -15,7 +15,12 @@ exit = exit
 ---@field isfile fun(name:string):boolean
 ---@field exist fun(name:string):boolean
 ---@field isdir fun(name:string):boolean
----@field list_files_recursively fun(start_path:string|nil):boolean
+---@field list_files_recursively fun(start_path:string|nil):string[]
+---@field list_files fun(start_path:string|nil):string[]
+---@field list_all_recursively fun(start_path:string|nil):string[]
+---@field list_all fun(start_path:string|nil):string[]
+---@field list_dirs_recursively fun(start_path:string|nil):string[]
+---@field list_dirs fun(start_path:string|nil):string[]
 
 ---@type Bin
 bin = bin
