@@ -3,10 +3,11 @@
 #include "lua_code.h"
 #include "bin.h"
 LuaCEmbedNamespace lua;
-
+CTextStackModule stack_module;
 int lua_exit = 0;
 int argv_size;
 char **argv_etries;
+
 #include "pathcontrol/pathcontrol.h"
 #include "callbacks/declaration.h"
 #include "callbacks/definition.h"
@@ -18,8 +19,13 @@ void add_callbacks(LuaCEmbed *main_obj){
     lua.add_callback(main_obj,"exit",generate_exit);
     lua.add_callback(main_obj,"getargv",get_argv);
 
-    lua.add_callback(main_obj,"getbin",get_bin);
-    lua.add_callback(main_obj,"list_files_recursively",list_bin_files_recursively);
+    LuaCEmbedTable *bin = lua.globals.new_table(main_obj,"bin");
+    lua.tables.set_method(bin,"getbin",get_bin);
+    lua.tables.set_method(bin,"isfile",is_bin_file);
+    lua.tables.set_method(bin,"isdir",is_bin_dir);
+    lua.tables.set_method(bin,"exist",bin_exist);
+    lua.tables.set_method(bin,"list_files_recursively",list_bin_files_recursively);
+
 }
 
 
@@ -27,6 +33,7 @@ int main(int argc,char *argv[]){
     argv_size = argc;
     argv_etries = argv;
     lua  = newLuaCEmbedNamespace();
+    stack_module = newCTextStackModule();
     LuaCEmbed * main_obj = lua.newLuaEvaluation();
     lua.load_lib_from_c(main_obj,load_luaDoTheWorld,"dtw");
 

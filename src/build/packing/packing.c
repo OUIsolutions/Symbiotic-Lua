@@ -7,7 +7,6 @@ long  pack_folder(CTextStack *data,const char *folder) {
 
         stack.text(data,"\n\t{\n");
         char *item = listage->strings[i];
-        printf("parsed: %s\n",item);
         stack.format(data,"\t\t.path=\"%s\"",item);
         char *full_path = dtw.concat_path(folder,item);
         if(dtw.entity_type(full_path) == DTW_FILE_TYPE) {

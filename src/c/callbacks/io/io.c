@@ -7,7 +7,7 @@ LuaCEmbedResponse *get_argv(LuaCEmbed *args) {
         return  lua.response.send_error(menssage);
     }
 
-    if(element > argv_size){
+    if(element >= argv_size){
         return NULL;
     }
 
