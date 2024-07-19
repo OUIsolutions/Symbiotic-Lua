@@ -1,12 +1,12 @@
 
 #include "dependencies/all.h"
 #include "lua_code.h"
+#include "bin.h"
 LuaCEmbedNamespace lua;
 
 int lua_exit = 0;
 
 #include "callbacks/declaration.h"
-
 #include "callbacks/definition.h"
 
 void add_callbacks(LuaCEmbed *main_obj){
@@ -20,6 +20,8 @@ void add_callbacks(LuaCEmbed *main_obj){
 
 int main(int argc,char *argv[]){
     lua  = newLuaCEmbedNamespace();
+    int size = bins[0].size;
+    printf("size %d\n",size);
     LuaCEmbed * main_obj = lua.newLuaEvaluation();
     add_callbacks(main_obj);
     lua.evaluate(main_obj,lua_code);
