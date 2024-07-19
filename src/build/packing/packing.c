@@ -24,10 +24,7 @@ long  pack_folder(CTextStack *data,const char *folder) {
         }
 
         free(full_path);
-
         stack.text(data,"\t},\n");
-
-
 
     }
     dtw.string_array.free(listage);
