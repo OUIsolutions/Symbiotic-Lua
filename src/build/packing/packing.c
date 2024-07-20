@@ -42,7 +42,7 @@ void create_bins(){
             "\tbool exist;\n"
             "\tlong size;\n"
             "\tbool is_binary;\n"
-            "\tunsigned char *content;\n"
+            "\tconst char *content;\n"
             "}Bin;\n"
             "Bin bins[] = {\n"
     );

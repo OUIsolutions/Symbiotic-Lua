@@ -3,7 +3,7 @@ typedef struct {
 	bool exist;
 	long size;
 	bool is_binary;
-	unsigned char *content;
+	const char *content;
 }Bin;
 Bin bins[] = {
 

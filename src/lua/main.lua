@@ -31,10 +31,10 @@ if action == "write" then
 
     if isfodler then
     	local itens,size = bin.list_files_recursively(binpath)
-    	for i=0,size do
+    	for i=1,size do
     	      local old_path = itens[i]
               local path = dtw.newPath(itens[i]);
-              path.remove_sub_dir_at_index(0)
+              path.remove_sub_dir_at_index(0,0)
               path.add_start_dir(binpath)
               print(path.get_full_path())
               dtw.write_file(path,bin.getbin(old_path))

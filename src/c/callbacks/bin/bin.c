@@ -2,10 +2,10 @@
 
 Bin * find_bin(const char *name) {
 
-
+    
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
-        if(strcmp(current->path,name) == 0 && current->content) {
+        if(strcmp(current->path,name) == 0) {
             return  current;
         }
     }

@@ -26,7 +26,7 @@ LuaCEmbedResponse *lua_print(LuaCEmbed *args){
             printf("%s",lua.args.get_str(args,i));
         }
         if(type == lua.types.BOOL){
-            char *bool_str = lua.args.get_bool(args,i) ? "true":"false";
+            const char *bool_str = lua.args.get_bool(args,i) ? "true":"false";
             printf("%s",bool_str);
         }
 
