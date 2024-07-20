@@ -34,10 +34,8 @@ if action == "write" then
     	for i=1,size do
     	      local old_path = itens[i]
               local path = dtw.newPath(itens[i]);
-              path.remove_sub_dir_at_index(0,0)
-              path.add_start_dir(binpath)
-              print(path.get_full_path())
-              dtw.write_file(path,bin.getbin(old_path))
+              path.replace_dirs(binpath,output)
+              dtw.write_file(path.get_full_path(),bin.getbin(old_path))
     	end
     end
 
