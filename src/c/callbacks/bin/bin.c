@@ -20,8 +20,11 @@ LuaCEmbedResponse * get_bin(LuaCEmbedTable *self,LuaCEmbed *args) {
         return  lua.response.send_error(menssage);
     }
     Bin *founded =  find_bin(bin_path);
+
     if(founded) {
-        return  lua.response.send_raw_string((char*)founded->content,founded->size);
+        if(founded->exist) {
+            return  lua.response.send_raw_string((char*)founded->content,founded->size);
+        }
     }
     return  NULL;
 }
@@ -34,7 +37,7 @@ LuaCEmbedResponse * is_bin_file(LuaCEmbedTable *self,LuaCEmbed *args) {
     Bin *founded =  find_bin(bin_path);
 
     if(founded) {
-        if(founded->content) {
+        if(founded->exist) {
           //  printf("file\n");
 
             return  lua.response.send_bool(true);
@@ -52,8 +55,7 @@ LuaCEmbedResponse * is_bin_dir(LuaCEmbedTable *self,LuaCEmbed *args) {
     }
     Bin *founded =  find_bin(bin_path);
     if(founded) {
-        if(founded->content == NULL) {
-            printf("dir\n");
+        if(!founded->exist) {
             return  lua.response.send_bool(true);
         }
 
@@ -93,7 +95,7 @@ LuaCEmbedResponse * list_bin_files(LuaCEmbedTable *self,LuaCEmbed *args) {
 
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
-        if(current->content == NULL) {
+        if(!current->exist) {
             continue;
         }
         if(start_path == NULL) {
@@ -137,7 +139,7 @@ LuaCEmbedResponse * list_bin_files_recursively(LuaCEmbedTable *self,LuaCEmbed *a
 
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
-        if(current->content == NULL) {
+        if(!current->exist) {
             continue;
         }
         if(start_path == NULL) {
@@ -178,7 +180,7 @@ LuaCEmbedResponse * list_bin_dirs(LuaCEmbedTable *self,LuaCEmbed *args) {
 
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
-        if(current->content) {
+        if(current->exist) {
             continue;
         }
         if(start_path == NULL) {
@@ -223,7 +225,7 @@ LuaCEmbedResponse * list_bin_dirs_recursively(LuaCEmbedTable *self,LuaCEmbed *ar
 
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
-        if(current->content) {
+        if(current->exist) {
             continue;
         }
         if(start_path == NULL) {
