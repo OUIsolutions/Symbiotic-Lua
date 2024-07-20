@@ -13,6 +13,7 @@ long  pack_folder(CTextStack *data,const char *folder) {
             long size;
             bool is_binary;
             unsigned char *content = dtw.load_any_content(full_path,&size,&is_binary);
+            stack.format(data,"\t\t.exist=true,\n");
             stack.format(data,"\t\t.size=%d,\n",size);
             stack.format(data,"\t\t.is_binary=%s,\n",is_binary? "true":"false");
             stack.format(data,"\t\t.content=\"");
@@ -20,7 +21,7 @@ long  pack_folder(CTextStack *data,const char *folder) {
             stack.format(data,"\"\n");
         }
         else {
-            stack.format(data,"\t\t.content=NULL\n");
+            stack.format(data,"\t\t.exist=false\n");
         }
 
         free(full_path);
@@ -38,6 +39,7 @@ void create_bins(){
     CTextStack *data = stack.newStack_string(
         "typedef struct {\n"
             "\tconst char *path;\n"
+            "\tbool exist;\n"
             "\tlong size;\n"
             "\tbool is_binary;\n"
             "\tunsigned char *content;\n"
@@ -56,7 +58,7 @@ void create_bins(){
     stack.text(data,"};\n");
     stack.format(data,"int bins_size = %d;\n",size);
 
-    dtw.write_string_file_content("c/bin.h",data->rendered_text);
+    dtw.write_string_file_content(BIN_COUDE,data->rendered_text);
 
     stack.free(data);
 

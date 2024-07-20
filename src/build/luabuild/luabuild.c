@@ -34,11 +34,20 @@ int  create_lua_code(){
 
         char *extension = dtw.path.get_extension(current_path);
 
+        char *name = dtw.path.get_name(current_path);
+        CTextStack *name_stack = stack.newStack_string(name);
+        if(stack.ends_with(name_stack,".ignore")) {
+            stack.free(name_stack);
+            continue;
+        }
+        stack.free(name_stack);
+
         if(extension){
             if(strcmp(extension,"lua") != 0){
                 continue;
             }
         }
+
 
 
         if(current_file->content == NULL || current_file->is_binary){
@@ -66,7 +75,7 @@ int  create_lua_code(){
     parse_code(final,"\n");
     stack.format(final,"\";");
 
-    dtw.write_string_file_content(OUTPUT,final->rendered_text);
+    dtw.write_string_file_content(LUA_CODE,final->rendered_text);
 
 
     UniversalGarbage_free(garbage);
