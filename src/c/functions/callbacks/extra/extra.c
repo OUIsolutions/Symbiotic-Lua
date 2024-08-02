@@ -1,3 +1,4 @@
+#include "../unique.definition_requirements.h"
 
 
 LuaCEmbedResponse * generate_exit(LuaCEmbed *args){

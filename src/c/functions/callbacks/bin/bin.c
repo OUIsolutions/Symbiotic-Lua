@@ -1,8 +1,9 @@
 
+#include "../unique.definition_requirements.h"
 
 Bin * find_bin(const char *name) {
 
-    
+
     for(int i=0; i < bins_size;i++) {
         Bin *current =&bins[i];
         if(strcmp(current->path,name) == 0) {
@@ -326,4 +327,3 @@ LuaCEmbedResponse * list_bin_all_recursively(LuaCEmbedTable *self,LuaCEmbed *arg
     lua.tables.append_long(multi_response,total_included);
     return lua.response.send_multi_return(multi_response);
 }
-

@@ -1,3 +1,4 @@
+#include "../unique.definition_requirements.h"
 
 LuaCEmbedResponse *get_argv(LuaCEmbed *args) {
     long element = lua.args.get_long(args,0);

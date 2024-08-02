@@ -1,4 +1,5 @@
 
+#include "../unique.definition_requirements.h"
 
 long  pack_folder(CTextStack *data,const char *folder) {
     DtwStringArray *listage = dtw.list_all_recursively(folder,false);
@@ -36,7 +37,10 @@ long  pack_folder(CTextStack *data,const char *folder) {
 void create_bins(){
 
     UniversalGarbage *garbage = newUniversalGarbage();
-    CTextStack *data = stack.newStack_string(
+
+    CTextStack *data = stack.newStack_string_empty();
+    stack.text(data,"#ifndef BIN_H\n#define  BIN_H\n");
+    stack.text(data,
         "typedef struct {\n"
             "\tconst char *path;\n"
             "\tbool exist;\n"
@@ -46,6 +50,7 @@ void create_bins(){
             "}Bin;\n"
             "Bin bins[] = {\n"
     );
+
     long size = pack_folder(data,"bin/all");
     #ifdef __linux__
        size+= pack_folder(data,"bin/linux");
@@ -57,6 +62,7 @@ void create_bins(){
 
     stack.text(data,"};\n");
     stack.format(data,"int bins_size = %d;\n",size);
+    stack.text(data,"#endif\n");
 
     dtw.write_string_file_content(BIN_COUDE,data->rendered_text);
 

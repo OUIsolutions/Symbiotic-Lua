@@ -50,7 +50,7 @@ int main(int argc,char *argv[]){
         lua.free(main_obj);
         return lua_exit;
     }
-    
+
     lua.free(main_obj);
     return 0;
 }
