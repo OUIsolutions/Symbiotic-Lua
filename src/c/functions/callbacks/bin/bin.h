@@ -1,3 +1,4 @@
+#include "../unique.declaration_requirements.h"
 
 Bin * find_bin(const char *name) ;
 
@@ -24,4 +25,3 @@ LuaCEmbedResponse * list_bin_dirs_recursively(LuaCEmbedTable *self,LuaCEmbed *ar
 LuaCEmbedResponse * list_bin_all(LuaCEmbedTable *self,LuaCEmbed *args);
 
 LuaCEmbedResponse * list_bin_all_recursively(LuaCEmbedTable *self,LuaCEmbed *args);
-

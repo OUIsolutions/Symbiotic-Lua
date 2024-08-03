@@ -23,6 +23,7 @@ int main(int argc,char *argv[]){
     lua  = newLuaCEmbedNamespace();
     stack_module = newCTextStackModule();
     LuaCEmbed * main_obj = lua.newLuaEvaluation();
+
     lua.load_lib_from_c(main_obj,load_luaDoTheWorld,"dtw");
 
     add_callbacks(main_obj);
