@@ -164,19 +164,38 @@ static int os_rename (lua_State *L) {
   const char *toname = luaL_checkstring(L, 2);
   return luaL_fileresult(L, rename(fromname, toname) == 0, NULL);
 }
-
-
-static int os_tmpname (lua_State *L) {
-  char buff[LUA_TMPNAMBUFSIZE];
-  int err;
-  lua_tmpnam(buff, err);
-  if (l_unlikely(err))
+#ifdef __linux
+static int os_tmpname(lua_State *L) {
+  char buff[100];
+  const char *tmpdir = "/tmp/lua_XXXXXX";
+  int fd = mkstemp(buff);
+  if (fd == -1) {
     return luaL_error(L, "unable to generate a unique filename");
+  }
+
+  close(fd);
   lua_pushstring(L, buff);
   return 1;
 }
+#endif
+#ifdef _WIN32
 
-
+static int os_tmpname(lua_State *L) {
+  char buff[100] = {0};
+  const char *template = "lua_XXXXXX";
+  
+  GetTempPathA(sizeof(buff), buff);
+ 
+  UINT  fd = GetTempFileNameA(buff, template, 0, buff);
+  if (fd == -1) {
+    return luaL_error(L, "unable to generate a unique filename");
+  }
+  close(fd);
+  // Empurrar o nome do arquivo temporário para a pilha Lua
+  lua_pushstring(L, buff);
+  return 1;
+}
+#endif
 static int os_getenv (lua_State *L) {
   lua_pushstring(L, getenv(luaL_checkstring(L, 1)));  /* if NULL push nil */
   return 1;

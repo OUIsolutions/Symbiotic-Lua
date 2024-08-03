@@ -143,13 +143,6 @@ typedef struct lua_Debug lua_Debug;
 typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
 
 
-/*
-** generic extra include file
-*/
-#if defined(LUA_USER_H)
-#include LUA_USER_H
-#endif
-
 
 /*
 ** RCS ident string
@@ -350,7 +343,7 @@ LUA_API void (lua_warning)  (lua_State *L, const char *msg, int tocont);
 
 /* parameters for incremental mode */
 #define LUA_GCPPAUSE		3  /* size of pause between successive GCs */
-#define LUA_GCPSTEPMUL		4  /* GC "speed" */
+#define LUA_GCPSTEPMUL		4  /* GC  */
 #define LUA_GCPSTEPSIZE		5  /* GC granularity */
 
 /* number of parameters */
