@@ -14,15 +14,12 @@ long  pack_folder(CTextStack *data,const char *folder) {
             long size;
             bool is_binary;
             unsigned char *content = dtw.load_any_content(full_path,&size,&is_binary);
-            stack.format(data,"\t\t.exist=true,\n");
+        /// stack.format(data,"\t\t.exist=true,\n");
             stack.format(data,"\t\t.size=%d,\n",size);
             stack.format(data,"\t\t.is_binary=%s,\n",is_binary? "true":"false");
             stack.format(data,"\t\t.content=\"");
             parse_bin(data,content,size);
             stack.format(data,"\"\n");
-        }
-        else {
-            stack.format(data,"\t\t.exist=false\n");
         }
 
         free(full_path);
@@ -39,17 +36,6 @@ void create_bins(){
     UniversalGarbage *garbage = newUniversalGarbage();
 
     CTextStack *data = stack.newStack_string_empty();
-    stack.text(data,"#ifndef BIN_H\n#define  BIN_H\n");
-    stack.text(data,
-        "typedef struct {\n"
-            "\tconst char *path;\n"
-            "\tbool exist;\n"
-            "\tlong size;\n"
-            "\tbool is_binary;\n"
-            "\tconst char *content;\n"
-            "}Bin;\n"
-            "Bin bins[] = {\n"
-    );
 
     long size = pack_folder(data,"bin/all");
     #ifdef __linux__
@@ -62,7 +48,6 @@ void create_bins(){
 
     stack.text(data,"};\n");
     stack.format(data,"int bins_size = %d;\n",size);
-    stack.text(data,"#endif\n");
 
     dtw.write_string_file_content(BIN_COUDE,data->rendered_text);
 

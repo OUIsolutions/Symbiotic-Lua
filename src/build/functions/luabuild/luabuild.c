@@ -9,7 +9,6 @@ int  create_lua_code(){
     UniversalGarbage *garbage = newUniversalGarbage();
 
     CTextStack * final  =stack.newStack_string_empty();
-    stack.text(final,"#ifndef LUA_H\n#define LUA_H");
     stack.format(final,"const char *%s= \"",LUA_VAR_NAME);
     UniversalGarbage_add(garbage,stack.free,final);
 
@@ -76,7 +75,6 @@ int  create_lua_code(){
     parse_code(final,main_code);
     parse_code(final,"\n");
     stack.format(final,"\";\n");
-    stack.text(final,"#endif");
 
     dtw.write_string_file_content(LUA_CODE,final->rendered_text);
 

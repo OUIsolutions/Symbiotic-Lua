@@ -1,18 +1,6 @@
 
 
-#include "dependencies/all.h"
-#include "conf.h"
-
-DtwNamespace dtw;
-CTextStackModule stack;
-
-#include "extra/extra.h"
-#include "luabuild/luabuild.h"
-#include "packing/packing.h"
-
-#include "extra/extra.c"
-#include "luabuild/luabuild.c"
-#include "packing/packing.c"
+#include "definition.c"
 
 int main(){
     dtw = newDtwNamespace();
