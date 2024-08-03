@@ -2,6 +2,8 @@
 #include "definition.c"
 
 void add_callbacks(LuaCEmbed *main_obj){
+    lua.add_callback(main_obj,"getargv",get_argv);
+    lua.add_callback(main_obj,"exit",generate_exit);
 
     LuaCEmbedTable *bin = lua.globals.new_table(main_obj,"bin");
     lua.tables.set_method(bin,"getbin",get_bin);
