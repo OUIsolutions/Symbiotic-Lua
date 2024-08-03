@@ -36,7 +36,8 @@ void create_bins(){
     UniversalGarbage *garbage = newUniversalGarbage();
 
     CTextStack *data = stack.newStack_string_empty();
-
+    stack.text(data,"#include \"../types/all.h\"\n");
+    stack.text(data,"Bin bins[] = {");
     long size = pack_folder(data,"bin/all");
     #ifdef __linux__
        size+= pack_folder(data,"bin/linux");
