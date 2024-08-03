@@ -1,23 +1,8 @@
 
-#include "dependencies/all.h"
-#include "lua_code.h"
-#include "bin.h"
-LuaCEmbedNamespace lua;
-CTextStackModule stack_module;
-int lua_exit = 0;
-int argv_size;
-char **argv_etries;
-
-#include "pathcontrol/pathcontrol.h"
-#include "callbacks/declaration.h"
-#include "callbacks/definition.h"
-#include "pathcontrol/pathcontrol.c"
+#include "definition.c"
 
 void add_callbacks(LuaCEmbed *main_obj){
-    lua.add_callback(main_obj,"print",lua_print);
-    lua.add_callback(main_obj,"input",lua_input);
-    lua.add_callback(main_obj,"exit",generate_exit);
-    lua.add_callback(main_obj,"getargv",get_argv);
+
     LuaCEmbedTable *bin = lua.globals.new_table(main_obj,"bin");
     lua.tables.set_method(bin,"getbin",get_bin);
     lua.tables.set_method(bin,"isfile",is_bin_file);
